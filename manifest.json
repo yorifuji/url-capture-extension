@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "URL Capture",
+  "version": "1.0.0",
+  "description": "フィルタ条件に一致するURLをキャプチャしてクリップボードにコピー",
+  "permissions": ["storage", "tabs", "webNavigation", "clipboardWrite"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
+}
