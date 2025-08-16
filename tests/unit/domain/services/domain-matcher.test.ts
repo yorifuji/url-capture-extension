@@ -81,10 +81,18 @@ describe('DomainMatcher', () => {
     })
 
     it('should normalize path patterns with https:// prefix', () => {
-      expect(DomainMatcher.matches('https://github.com/yorifuji', 'https://github.com/yorifuji')).toBe(true)
-      expect(DomainMatcher.matches('https://github.com/yorifuji/', 'https://github.com/yorifuji')).toBe(true)
-      expect(DomainMatcher.matches('https://github.com/yorifuji/repo', 'https://github.com/yorifuji')).toBe(true)
-      expect(DomainMatcher.matches('https://github.com/foobar', 'https://github.com/yorifuji')).toBe(false)
+      expect(
+        DomainMatcher.matches('https://github.com/yorifuji', 'https://github.com/yorifuji')
+      ).toBe(true)
+      expect(
+        DomainMatcher.matches('https://github.com/yorifuji/', 'https://github.com/yorifuji')
+      ).toBe(true)
+      expect(
+        DomainMatcher.matches('https://github.com/yorifuji/repo', 'https://github.com/yorifuji')
+      ).toBe(true)
+      expect(
+        DomainMatcher.matches('https://github.com/foobar', 'https://github.com/yorifuji')
+      ).toBe(false)
     })
 
     it('should match path with wildcards', () => {
