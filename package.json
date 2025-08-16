@@ -1,6 +1,6 @@
 {
   "name": "url-capture",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Chrome extension to capture and copy filtered URLs to clipboard",
   "type": "module",
   "scripts": {
