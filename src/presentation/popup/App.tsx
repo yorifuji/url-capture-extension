@@ -40,7 +40,13 @@ export function App() {
       <h2>URL Capture</h2>
 
       <div className="url-info">
-        <div className="url-display">{currentUrl || '読み込み中...'}</div>
+        {currentUrl ? (
+          <a href={currentUrl} className="url-link" target="_blank" rel="noopener noreferrer">
+            右クリックで「別のユーザーとしてリンクを開く」等が選択できます
+          </a>
+        ) : (
+          <div className="url-display">読み込み中...</div>
+        )}
       </div>
 
       <div className="actions">

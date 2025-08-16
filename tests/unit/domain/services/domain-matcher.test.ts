@@ -33,6 +33,18 @@ describe('DomainMatcher', () => {
       expect(DomainMatcher.matches('https://example.com', 'github.com')).toBe(false)
     })
 
+    it('should normalize patterns with https:// prefix', () => {
+      expect(DomainMatcher.matches('https://github.com', 'https://github.com')).toBe(true)
+      expect(DomainMatcher.matches('https://github.com/path', 'https://github.com')).toBe(true)
+      expect(DomainMatcher.matches('https://example.com', 'https://github.com')).toBe(false)
+    })
+
+    it('should normalize patterns with http:// prefix', () => {
+      expect(DomainMatcher.matches('https://github.com', 'http://github.com')).toBe(true)
+      expect(DomainMatcher.matches('http://github.com/path', 'http://github.com')).toBe(true)
+      expect(DomainMatcher.matches('https://example.com', 'http://github.com')).toBe(false)
+    })
+
     it('should match wildcard subdomain', () => {
       expect(DomainMatcher.matches('https://api.github.com', '*.github.com')).toBe(true)
       expect(DomainMatcher.matches('https://github.com', '*.github.com')).toBe(false)
@@ -66,6 +78,13 @@ describe('DomainMatcher', () => {
         true
       )
       expect(DomainMatcher.matches('https://github.com/foobar', 'github.com/yorifuji')).toBe(false)
+    })
+
+    it('should normalize path patterns with https:// prefix', () => {
+      expect(DomainMatcher.matches('https://github.com/yorifuji', 'https://github.com/yorifuji')).toBe(true)
+      expect(DomainMatcher.matches('https://github.com/yorifuji/', 'https://github.com/yorifuji')).toBe(true)
+      expect(DomainMatcher.matches('https://github.com/yorifuji/repo', 'https://github.com/yorifuji')).toBe(true)
+      expect(DomainMatcher.matches('https://github.com/foobar', 'https://github.com/yorifuji')).toBe(false)
     })
 
     it('should match path with wildcards', () => {

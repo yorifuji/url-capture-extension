@@ -51,6 +51,22 @@ h2 {
   overflow-y: auto;
 }
 
+.url-link {
+  display: block;
+  font-size: 12px;
+  color: #0066cc;
+  text-decoration: underline;
+  margin: 8px 0;
+}
+
+.url-link:hover {
+  color: #0052a3;
+}
+
+.url-link:visited {
+  color: #0066cc;
+}
+
 .actions {
   display: flex;
   gap: 8px;

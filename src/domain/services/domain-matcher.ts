@@ -23,17 +23,25 @@ export class DomainMatcher {
   static matches(url: string, pattern: string): boolean {
     if (!url || !pattern) return false
 
+    // Normalize pattern by removing http:// or https:// prefix
+    let normalizedPattern = pattern
+    if (pattern.startsWith('https://')) {
+      normalizedPattern = pattern.substring(8)
+    } else if (pattern.startsWith('http://')) {
+      normalizedPattern = pattern.substring(7)
+    }
+
     try {
       const urlObj = new URL(url)
       const hostname = urlObj.hostname
       const fullPath = hostname + this.extractUrlPath(url)
 
       // If pattern contains '/', it's a path pattern
-      if (pattern.includes('/')) {
+      if (normalizedPattern.includes('/')) {
         // Handle wildcards in path patterns
-        if (pattern.includes('*')) {
+        if (normalizedPattern.includes('*')) {
           // Convert pattern to regex
-          const regexPattern = pattern
+          const regexPattern = normalizedPattern
             .split('*')
             .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
             .join('.*')
@@ -41,14 +49,14 @@ export class DomainMatcher {
           return regex.test(fullPath)
         }
         // Exact path match
-        return fullPath === pattern || fullPath.startsWith(pattern + '/')
+        return fullPath === normalizedPattern || fullPath.startsWith(normalizedPattern + '/')
       }
 
       // Hostname-only patterns
       // Handle wildcards in hostname patterns
-      if (pattern.includes('*')) {
+      if (normalizedPattern.includes('*')) {
         // Convert pattern to regex
-        const regexPattern = pattern
+        const regexPattern = normalizedPattern
           .split('*')
           .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
           .join('.*')
@@ -57,10 +65,10 @@ export class DomainMatcher {
       }
 
       // Exact match
-      if (pattern === hostname) return true
+      if (normalizedPattern === hostname) return true
 
       // Partial match (contains)
-      return hostname.includes(pattern)
+      return hostname.includes(normalizedPattern)
     } catch {
       return false
     }
