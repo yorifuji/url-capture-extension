@@ -27,6 +27,12 @@ jobs:
           VERSION=$(jq -r .version package.json)
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
+      - name: Update manifest.json version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          jq --arg ver "$VERSION" '.version = $ver' manifest.json > manifest.tmp.json
+          mv manifest.tmp.json manifest.json
+
       - name: Build package
         run: npm run package
 
