@@ -15,7 +15,7 @@
     "package": "npm run build && cd dist && zip -r ../extension.zip . && cd .. && echo 'Created extension.zip'"
   },
   "devDependencies": {
-    "@types/chrome": "^0.1.1",
+    "@types/chrome": "^0.1.9",
     "@types/node": "^24.2.0",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
