@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 export function App() {
   const [currentUrl, setCurrentUrl] = useState<string>('')
-  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     // Check if popup was opened by URL detection or toolbar click
@@ -21,11 +20,13 @@ export function App() {
   const handleCopyUrl = async () => {
     try {
       await navigator.clipboard.writeText(currentUrl)
-      setCopied(true)
-      // Close popup after a short delay to show feedback
-      setTimeout(() => {
-        window.close()
-      }, 500)
+
+      // 現在のタブを取得して閉じる
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+      if (tab?.id) {
+        chrome.tabs.remove(tab.id)
+      }
+      window.close()
     } catch (error) {
       console.error('Failed to copy URL:', error)
     }
@@ -50,12 +51,8 @@ export function App() {
       </div>
 
       <div className="actions">
-        <button
-          className={`copy-button ${copied ? 'copied' : ''}`}
-          onClick={handleCopyUrl}
-          disabled={!currentUrl}
-        >
-          {copied ? 'コピーしました！' : 'URLをコピー'}
+        <button className="copy-button" onClick={handleCopyUrl} disabled={!currentUrl}>
+          URLをコピーしてタブを閉じる
         </button>
 
         <button className="settings-button" onClick={handleOpenOptions}>
